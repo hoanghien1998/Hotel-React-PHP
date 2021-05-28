@@ -1,0 +1,10 @@
+
+RewriteEngine On
+
+RewriteRule ^([a-zA-Z0-9_-]+).html$ index.php?mod=admin&controller=login&action=login
+RewriteRule ^loai-phong/([a-zA-Z0-9_-]+).html$ index.php?mod=room&controller=roomtype&action=list_room_type
+RewriteRule ^phong/([a-zA-Z0-9_-]+).html$ index.php?mod=room&controller=room&action=list_room&page=1
+RewriteRule ^khachhang/([a-zA-Z0-9_-]+).html$ index.php?mod=customer&controller=customer&action=list_customer
+
+
+#RewriteRule ^([a-zA-Z0-9_-]+)-([0-9]+).html$ index.php?mod=room&controller=roomtype&action=list_room_type
