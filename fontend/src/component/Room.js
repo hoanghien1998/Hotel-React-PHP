@@ -110,7 +110,7 @@ const Room = (props) => {
 
   // Hiển thị danh sách các phòng lên
   const LayDsPhong = () => {
-    Axios.get("/Pro_Hotel/backend/Room/LietKePhong.php")
+    Axios.get("/hotel/backend/Room/LietKePhong.php")
       .then(({ data }) => {
         if (data.success === 1) {
           setListRoom(data.rooms);
@@ -143,7 +143,7 @@ const Room = (props) => {
         datetra,
         choseID,
       };
-      const url = "/Pro_Hotel/backend/kiemTraPhong.php";
+      const url = "/hotel/backend/kiemTraPhong.php";
       Axios.post(url, qs.stringify(data), {
         headers: {
           "content-type": "application/x-www-form-urlencoded",
@@ -411,6 +411,7 @@ const Room = (props) => {
       }
     }
   };
+  
   return (
     <div>
       <Slider />

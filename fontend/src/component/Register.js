@@ -48,7 +48,7 @@ function Register(props) {
             password
         }
         if (handleError()) {
-            const url = "/Pro_Hotel/backend/register.php";
+            const url = "/hotel/backend/register.php";
             Axios.post(url, data).then(res => {
                 if (res.data.status === 422) {
                     alert(res.data.message);

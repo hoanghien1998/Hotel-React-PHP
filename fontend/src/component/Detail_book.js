@@ -49,7 +49,7 @@ function Detail_Book(props) {
         var frm = new FormData();
         frm.append("rooms", JSON.stringify(rooms));
         frm.append("token", token);
-        var url = "/Pro_Hotel/backend/Room/DatPhong.php";
+        var url = "/hotel/backend/Room/DatPhong.php";
         Axios.post(url, frm).then(res => {
             // console.log(res);
             Hoantatdatphong(res.data)

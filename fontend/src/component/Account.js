@@ -78,7 +78,7 @@ const Account = (props) => {
 
         }
         if (handleError()) {
-            const url = "/Pro_Hotel/backend/updateAcount.php";
+            const url = "/hotel/backend/updateAcount.php";
             Axios.post(url, qs.stringify(data), {
                 headers: {
                     "content-type": "application/x-www-form-urlencoded"

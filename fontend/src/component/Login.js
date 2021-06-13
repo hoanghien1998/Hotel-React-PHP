@@ -46,7 +46,7 @@ function Login(props) {
         }
         if (handleError()) {
             console.log("Login")
-            const url = "/Pro_Hotel/backend/Login.php";
+            const url = "/hotel/backend/Login.php";
             Axios.post(url, data).then(res => {
                 if (res.data.status === 422) {
                     alert(res.data.message);
@@ -78,7 +78,7 @@ function Login(props) {
             logingg
 
         }
-        const url = "/Pro_Hotel/backend/Login.php";
+        const url = "/hotel/backend/Login.php";
         Axios.post(url, data, {
             headers: {
                 "content-type": "application/x-www-form-urlencoded"
@@ -108,7 +108,7 @@ function Login(props) {
             loginface
 
         }
-        const url = "/Pro_Hotel/backend/Login.php";
+        const url = "/hotel/backend/Login.php";
         Axios.post(url, data, {
             headers: {
                 "content-type": "application/x-www-form-urlencoded"

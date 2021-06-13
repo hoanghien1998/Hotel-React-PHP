@@ -38,7 +38,7 @@ elseif (!empty($data->loginface)) :
         $row = $query_stmt->fetch(PDO::FETCH_ASSOC);
         $jwt = new JwtHandler();
         $token = $jwt->_jwt_encode_data(
-            'localhost:8081/doan/Ql_KhachSan_Client/backend/',
+            'localhost/hotel/backend/',
             array("user_id" => $row['cus_code'])
         );
         unset($row['password']);
@@ -69,7 +69,7 @@ elseif (!empty($data->loginface)) :
             $row = $query_stmt->fetch(PDO::FETCH_ASSOC);
             $jwt = new JwtHandler();
             $token = $jwt->_jwt_encode_data(
-                'localhost:8081/doan/Ql_KhachSan_Client/backend/',
+                'localhost/hotel/backend/',
                 array("user_id" => $row['cus_code'])
             );
             unset($row['password']);
@@ -94,7 +94,7 @@ elseif (!empty($data->logingg)) :
         $row = $query_stmt->fetch(PDO::FETCH_ASSOC);
         $jwt = new JwtHandler();
         $token = $jwt->_jwt_encode_data(
-            'localhost:8081/doan/Ql_KhachSan_Client/backend/',
+            'localhost/hotel/backend/',
             array("user_id" => $row['cus_code'])
         );
         unset($row['password']);
@@ -125,7 +125,7 @@ elseif (!empty($data->logingg)) :
             $row = $query_stmt->fetch(PDO::FETCH_ASSOC);
             $jwt = new JwtHandler();
             $token = $jwt->_jwt_encode_data(
-                'localhost:8081/doan/Ql_KhachSan_Client/backend/',
+                'localhost/hotel/backend/',
                 array("user_id" => $row['cus_code'])
             );
             unset($row['password']);
@@ -182,7 +182,7 @@ else :
 
                     $jwt = new JwtHandler();
                     $token = $jwt->_jwt_encode_data(
-                        'localhost:8081/doan/Ql_KhachSan_Client/backend/',
+                        'localhost/hotel/backend/',
                         array("user_id" => $row['cus_code'])
                     );
                     unset($row['password']);
