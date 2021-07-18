@@ -3,7 +3,6 @@ import Carousel from 'react-bootstrap/Carousel'
 import Axios from "axios";
 
 const Slider = (props) => {
-  const { slides } = props;
   const [listSlides, setListSlides] = useState([]);
   
   // Lấy danh sách hình ảnh được trả về từ api

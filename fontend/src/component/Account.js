@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Col, Row, Container, Button, Modal, Jumbotron } from "react-bootstrap";
 import $ from "jquery";
 import Axios from "axios";
@@ -17,7 +17,7 @@ const Account = (props) => {
     const [cmnd, setCmnd] = useState("");
     const [email, setEmail] = useState("");
     const [modalState, setModalState] = useState(false);
-    const [getTT, setGetTT] = useState("");
+    // const [getTT, setGetTT] = useState("");
 
     const [user, getUser] = useState(JSON.parse(localStorage.getItem("user")));
     // Get model edit user info

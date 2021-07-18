@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Axios from "axios";
-import { Col, Row, Container } from "react-bootstrap";
+import { Col, Row, Container, Alert, Card, Button, Modal } from "react-bootstrap";
 import { Calendar } from "primereact/calendar";
-import { Card, Button, Modal } from "react-bootstrap";
 import NumberFormat from "react-number-format";
 import "../common/costume.css";
 import Slider from "./Slider";
@@ -27,6 +26,8 @@ const getDayHT = () => {
   const yy = today.getFullYear();
   return `${yy}-${mm}-${dd}`;
 };
+
+let array = [];
 
 const Room = (props) => {
   const { rooms } = props;
@@ -53,8 +54,12 @@ const Room = (props) => {
   const [giuong, setGiuong] = useState("");
   // So luong phong con theo ngay nhan ngay tra;
   const [slPhongCon, setSlPhongCon] = useState(0);
+  //Biến khai báo liên quan đến giảm giá
+  const [giaGiam, setGiaGiam] = useState(null);
+  const [dateStart, setDateStart] = useState("");
+  const [dateEnd, setDateEnd] = useState("");
 
-  // Lấy dữ liệu để hiể thị lên modal đặt phòng
+  // Lấy dữ liệu để hiển thị lên modal đặt phòng
   const getModal = (
     id,
     name,
@@ -63,7 +68,10 @@ const Room = (props) => {
     image_room,
     Dientich,
     huongP,
-    sGiuong
+    sGiuong,
+    giaGiam,
+    dateStart,
+    dateEnd,
   ) => {
     modalState === true ? setModalState(false) : setModalState(true);
     setChoseID(id);
@@ -74,6 +82,9 @@ const Room = (props) => {
     setDienTich(Dientich);
     setHuongPhong(huongP);
     setGiuong(sGiuong);
+    setGiaGiam(giaGiam);
+    setDateStart(dateStart);
+    setDateEnd(dateEnd);
   };
 
   // Xử lý khi nhấn nút đặt phòng.
@@ -94,7 +105,11 @@ const Room = (props) => {
       sotre,
       slPhongCon,
       image,
+      giaGiam,
+      dateStart,
+      dateEnd,
     };
+    console.log("newCart", newCart);
 
     // Truyền cái cart đến trang homwe, rồi đến trang chủ.
     props.handleAddToCart(newCart);
@@ -108,11 +123,23 @@ const Room = (props) => {
     // console.log("props", props.token);
   };
 
+  const handleShowDate = (item) => {
+    const data = item.split('-');
+    return `${data[2]}-${data[1]}-${data[0]}`
+}
+
   // Hiển thị danh sách các phòng lên
   const LayDsPhong = () => {
     Axios.get("/hotel/backend/Room/LietKePhong.php")
       .then(({ data }) => {
         if (data.success === 1) {
+          data.rooms.forEach(item => {
+            array.push(parseInt(item.price_discount));
+          });
+          console.log("data", typeof data.rooms[0].date_end);
+          setDateEnd(data.rooms[0].date_end);
+          setDateStart(data.rooms[0].date_start);
+          setGiaGiam(Math.max.apply(Math, array));
           setListRoom(data.rooms);
         }
       })
@@ -120,6 +147,9 @@ const Room = (props) => {
         console.log(error);
       });
   };
+
+  console.log("dateEnd", typeof dateEnd);
+  console.log("dateStart", typeof dateStart);
 
   // Giống component did mount
   useEffect(() => {
@@ -236,6 +266,7 @@ const Room = (props) => {
                   border: "1px solid #bd9d1b",
                   marginTop: "20px",
                   borderRadius: "50px",
+                  height: "500px"
                 }}
                 onClick={() =>
                   getModal(
@@ -246,7 +277,10 @@ const Room = (props) => {
                     item.image,
                     item.dientich,
                     item.huongphong,
-                    item.giuong
+                    item.giuong,
+                    item.price_discount,
+                    item.date_start,
+                    item.date_end,
                   )
                 }
               >
@@ -256,14 +290,35 @@ const Room = (props) => {
                   style={{ borderRadius: "50px", height: "300px" }}
                 />
                 <Card.Body>
-                  <Card.Title style={{ textAlign: "center" }}>
-                    <NumberFormat
-                      value={item.price}
-                      displayType={"text"}
-                      thousandSeparator={true}
-                    />{" "}
-                    VND
-                  </Card.Title>
+                  {/* {item.price_discount > 0 ? (
+                    <Card.Title style={{ textAlign: "center" }}>
+                      <div style={{ textDecoration: "line-through",paddingBottom: "5px" }}>
+                        <NumberFormat
+                          value={item.price}
+                          displayType={"text"}
+                          thousandSeparator={true}
+                        /> {""}
+                        VND
+                      </div>
+                      <div style={{color: "red" }}>
+                        <NumberFormat
+                          value={item.price_discount}
+                          displayType={"text"}
+                          thousandSeparator={true}
+                        /> {""}
+                        VND
+                      </div>
+                    </Card.Title>
+                  ) : ( */}
+                    <Card.Title style={{ textAlign: "center" }}>
+                      <NumberFormat
+                        value={item.price}
+                        displayType={"text"}
+                        thousandSeparator={true}
+                      /> {""}
+                      VND
+                    </Card.Title>
+                  {/* )} */}
                   <Card.Text style={{ textAlign: "center", fontSize: "18pt" }}>
                     {item.name}
                   </Card.Text>
@@ -314,22 +369,22 @@ const Room = (props) => {
     if (Object.is(result, undefined)) {
       return (
         <div>
-        {slPhongCon === 0 ?(
-          <Button
-          variant="success"
-        >
-          Hết phòng{""}
-        </Button>
-        ):(
-          <Button
-          variant="success"
-          onClick={() => {
-            handleSubmit();
-          }}
-        >
-          Đặt phòng{""}
-        </Button>
-        )}
+          {slPhongCon === 0 ? (
+            <Button
+              variant="success"
+            >
+              Hết phòng{""}
+            </Button>
+          ) : (
+            <Button
+              variant="success"
+              onClick={() => {
+                handleSubmit();
+              }}
+            >
+              Đặt phòng{""}
+            </Button>
+          )}
         </div>
       );
       // return (
@@ -411,7 +466,7 @@ const Room = (props) => {
       }
     }
   };
-  
+
   return (
     <div>
       <Slider />
@@ -425,6 +480,12 @@ const Room = (props) => {
       >
         Phòng của khách sạn
       </h1>
+      {giaGiam > 0 && (<Alert 
+        variant="danger" 
+        style={{marginLeft: "120px", marginRight:"110px"}}
+      >
+        <h3>Chương trình giảm giá {giaGiam}% từ ngày {handleShowDate(dateStart)} đến ngày {handleShowDate(dateEnd)}</h3>
+      </Alert>)}
       <Container>
         <Row>{listRoom && handleGetList(listRoom)}</Row>
       </Container>
@@ -437,17 +498,21 @@ const Room = (props) => {
           <h5>Quý khách đang chọn loại {nametype}.</h5>
           <Container>
             <Row>
-              <Col md={4}>
-                <h6>Diện tích: </h6> {dientich}
-              </Col>
-              <Col md={4}>
-                <h6>Hướng phòng: </h6> {huongphong}
-              </Col>
-              <Col md={4}>
-                <h6>Số giường: </h6> {giuong}
+              <Col md={6}>
+                <label style={{fontWeight: "bold" }}>Diện tích: </label> {dientich}
               </Col>
               <Col md={6}>
-                <h5>Ngày nhận phòng</h5>
+                <label style={{fontWeight: "bold" }}>Số giường: </label> {giuong}
+              </Col>
+            </Row>
+            <Row>
+              <Col md={12}>
+                  <label style={{fontWeight: "bold" }}>Mô tả: </label> {huongphong}
+                </Col>
+              </Row>
+            <Row>
+              <Col md={6}>
+                <label style={{fontWeight: "bold" }}>Ngày nhận phòng</label>
                 <Calendar
                   name="datenhan"
                   dateFormat="dd/mm/yy"
@@ -463,7 +528,7 @@ const Room = (props) => {
               {datenhan && (
                 <>
                   <Col md={6}>
-                    <h5>Ngày trả phòng</h5>
+                    <label style={{fontWeight: "bold" }}>Ngày trả phòng</label>
                     <Calendar
                       name="datetra"
                       dateFormat="dd/mm/yy"
@@ -481,8 +546,8 @@ const Room = (props) => {
             </Row>
             {!Object.is(datetra, null) && slPhongCon !== 0 ? (
               <Row style={{ marginTop: "30px" }}>
-                <Col md={4}>
-                  <label style={{ marginRight: "5px" }}>Số lượng phòng</label>
+                <Col md={5}>
+                  <label style={{ marginRight: "5px", fontWeight: "bold" }}>Số lượng phòng</label> <br></br>
                   <select
                     onChange={(e) => setSlphong(e.target.value)}
                     value={slphong}
@@ -499,7 +564,7 @@ const Room = (props) => {
                   </select>
                 </Col>
                 <Col md={4}>
-                  <label style={{ marginRight: "5px" }}>Số người lớn</label>
+                  <label style={{ marginRight: "5px", fontWeight: "bold" }}>Số người lớn</label>
                   <select
                     onChange={(e) => setSonguoilon(e.target.value)}
                     value={songuoilon}
@@ -513,8 +578,8 @@ const Room = (props) => {
                     <option value="6"> 6 </option>
                   </select>
                 </Col>
-                <Col md={4}>
-                  <label style={{ marginRight: "5px" }}>Số trẻ em</label>
+                <Col md={3}>
+                  <label style={{ marginRight: "5px", fontWeight: "bold" }}>Số trẻ em</label>
                   <select
                     onChange={(e) => setSotre(e.target.value)}
                     value={sotre}
@@ -529,16 +594,16 @@ const Room = (props) => {
                 </Col>
               </Row>
             ) : (
-                slPhongCon === 0
-                && <div style={{ color: "white", backgroundColor: "#B22222", marginTop: "10px" }}>
-                  Loại phòng trong ngày quý khách chọn đã hết, vui lòng chọn ngày khác hoặc loại phòng khác
-                  </div>
-              )}
+              slPhongCon === 0
+              && <div style={{ color: "white", backgroundColor: "#B22222", marginTop: "10px" }}>
+                Loại phòng trong ngày quý khách chọn đã hết, vui lòng chọn ngày khác hoặc loại phòng khác
+              </div>
+            )}
           </Container>
         </Modal.Body>
         <Modal.Footer>
-        {/* {rooms && choseID !== "" && handleShowBookRoom(rooms, choseID)?(slPhongCon === 0):null} */}
-        {rooms && choseID !== "" && handleShowBookRoom(rooms, choseID,slPhongCon)}
+          {/* {rooms && choseID !== "" && handleShowBookRoom(rooms, choseID)?(slPhongCon === 0):null} */}
+          {rooms && choseID !== "" && handleShowBookRoom(rooms, choseID, slPhongCon)}
           <Button variant="secondary" onClick={() => handleCloseModal()}>
             Close
           </Button>

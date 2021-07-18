@@ -7,7 +7,7 @@ import { GoogleLogin } from 'react-google-login';
 import FacebookLogin from 'react-facebook-login';
 import $ from 'jquery';
 window.$ = $;
-var qs = require('qs');
+// var qs = require('qs');
 
 
 const REGEX_PASS = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;

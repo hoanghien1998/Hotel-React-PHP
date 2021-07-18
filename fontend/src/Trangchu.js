@@ -39,10 +39,10 @@ function Trangchu(props) {
     // Lưu cái thông tin khi đặt phòng xuống localStorage.
     // Neu tim thay x ID = data.choseID thi cu push x vao listRoom
     const handleAddToCart = (data) => {
-        // console.log("", data);
+        console.log("", data);
         // console.log(rooms)
         const listRoom = rooms.slice();
-        const x = listRoom.find(
+        listRoom.find(
             (x) => x.choseID.toString() === data.choseID.toString()
         );
         listRoom.push(data);

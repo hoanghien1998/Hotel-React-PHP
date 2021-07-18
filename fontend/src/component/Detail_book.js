@@ -3,22 +3,20 @@ import { Col, Row, Container, Button } from "react-bootstrap";
 import Axios from 'axios';
 import NumberFormat from "react-number-format";
 function Detail_Book(props) {
-    // Define state in function
-    const [IDRoom, setIDRoom] = useState("");
-    const [DateNhan, setDateNhan] = useState(null);
-    const [DateTra, setDateTra] = useState(null);
-    const [price, setPrice] = useState("");
-    const [NameRoomType, setNameRoomType] = useState("");
-    const [RoomNumber, setRoomNumber] = useState(1);
-    const [AdultNumber, setAdultNumber] = useState(1);
-    const [ChildNumber, setChildNumber] = useState(0);
-    const [Total, setTotal] = useState(0);
-
     const { rooms, token } = props;
     console.log("rooms", rooms);
 
     // Tính số ngày thông qua ngày nhận và ngày trả phòng
     const handleTinhNgay = (datenhan, datetra) => {
+        const d1 = new Date(datenhan).getTime();
+        const d2 = new Date(datetra).getTime();
+        var daysTill30June2035 = Math.floor((d2 - d1) / (1000 * 60 * 60 * 24));
+        // console.log("daysTill30June2035", daysTill30June2035 + 1);
+        return daysTill30June2035 + 1;
+    };
+
+    // Tính số tiền được giảm thông qua ngày bắt đầu giảm giá và ngày kết thúc
+    const handleTinhNgayGiam = (datenhan, datetra) => {
         const d1 = new Date(datenhan).getTime();
         const d2 = new Date(datetra).getTime();
         var daysTill30June2035 = Math.floor((d2 - d1) / (1000 * 60 * 60 * 24));
@@ -75,7 +73,7 @@ function Detail_Book(props) {
                             width="100%"
                         >
                             <thead>
-                                <tr style={{ textAlign: "center", fontSize: "16pt" }}>
+                                <tr style={{ textAlign: "center", fontSize: "13pt" }}>
                                     <th style={{width:"150px"}}>Loại phòng</th>
                                     <th>Hình ảnh</th>
                                     {/* <th>Ngày nhận</th>
@@ -152,10 +150,10 @@ function Detail_Book(props) {
                 </Row>
                 <Row>
                     <Col md={2}>
-                        <h4>Tổng: </h4>
+                        <h5>Tổng: </h5>
                     </Col>
                     <Col md={10} >
-                        <h4>
+                        <h5>
                             <NumberFormat value={rooms &&
                                 rooms.reduce(
                                     (a, c) =>
@@ -165,7 +163,7 @@ function Detail_Book(props) {
                                         c.item_price,
                                     0
                                 )} displayType={'text'} thousandSeparator={true} /> VND
-                        </h4>
+                        </h5>
                     </Col>
                 </Row>
                 <Row>
