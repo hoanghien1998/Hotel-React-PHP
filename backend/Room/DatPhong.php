@@ -48,8 +48,8 @@ VALUES ($booking_code, $room->choseID,$room->item_price,$room->slphong,$room->so
     //lay danh sach phong ddax co trong detailbook theo ngay nhan va ngay tra va theo loai phong
     $get_list_room = mysqli_query($conn, "SELECT detailbook_room.room_id
      FROM `detailbook_room`,`detailbook`
-     WHERE detailbook_room.detail_book_id=detailbook.id AND detailbook.room_type_id={$get_row_detailbook['room_type_id']} AND ((detailbook.check_in<='{$get_row_detailbook['check_in']}') AND ('{$get_row_detailbook['check_in']}' <= detailbook.check_out))
-         OR ((detailbook.check_in<='{$get_row_detailbook['check_out']}') AND ('{$get_row_detailbook['check_out']}' <= detailbook.check_out))");
+     WHERE detailbook_room.detail_book_id=detailbook.id AND detailbook.room_type_id={$get_row_detailbook['room_type_id']} AND (((detailbook.check_in<='{$get_row_detailbook['check_in']}') AND ('{$get_row_detailbook['check_in']}' <= detailbook.check_out))
+         OR ((detailbook.check_in<='{$get_row_detailbook['check_out']}') AND ('{$get_row_detailbook['check_out']}' <= detailbook.check_out)))");
     $array_room = array();
     while ($row = mysqli_fetch_assoc($get_list_room)) {
         $array_room[] = $row;
