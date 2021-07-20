@@ -42,6 +42,10 @@ function list_room_typeAction() {
     if (isset($_POST['save-update-room-type-id'])) {
         update_room_typeAction();
     }
+    //update_thong tin ưu đãi khi tồn tại nut lưu
+    if (isset($_POST['save-room-type-pricediscount'])) {
+        add_price_discountAction();
+    }
     //delete_room_id khi có tồn tại nút yes
     if (isset($_POST['btn-delete-room-type'])) {
         delete_room_typeAction();
@@ -51,6 +55,31 @@ function list_room_typeAction() {
         add_room_typeAction();
     }
     load_view('roomtype', $data);
+}
+
+// ƯU ĐÃI
+function add_price_discountAction() {
+
+    if (isset($_POST['save-room-type-pricediscount'])) {
+        $data = array(
+            'price_discount' => $_POST['roomtype_pricediscount'],
+            'date_start' => $_POST['roomtype_datestart'],
+            'date_end' => $_POST['roomtype_dateend'],
+        );
+        update_info_room_type_pricedisount($data);
+        redirect("?mod=room&controller=roomtype&action=list_room_type");
+    }
+    if (isset($_POST['id'])) {
+        $id = $_POST['id'];
+        $room_type_id = get_room_type_dis();
+        $result = array(
+            'price_discount' =>  $room_type_id['price_discount'],
+            'date_start' =>  $room_type_id['date_start'],
+            'date_end' =>  $room_type_id['date_end'],
+                //'image' => $room_type_id['image']
+        );
+        echo json_encode($result);
+    }
 }
 
 function update_room_typeAction() {
@@ -139,7 +168,6 @@ function add_room_typeAction() {
                         'date_end' => $_POST['roomtype_add_dateend'],
                         'image' => $_FILES['roomtypeImageadd']['name']
                     );
-                    //update_info_room_type_id($data,$room_id);
                     insert_info_room_type($data);
                     redirect("?mod=room&controller=roomtype&action=list_room_type");
                 }
@@ -152,7 +180,6 @@ function add_room_typeAction() {
                 'date_start' => $_POST['roomtype_add_datestart'],
                 'date_end' => $_POST['roomtype_add_dateend']
             );
-            //update_info_room_type_id($data, $room_id);
             insert_info_room_type($data);
             redirect("?mod=room&controller=roomtype&action=list_room_type");
         }

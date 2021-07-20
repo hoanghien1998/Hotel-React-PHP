@@ -13,7 +13,7 @@ get_sidebar();
             </div>
             <div class="header-title">
                 <h1>Quản lý đặt phòng</h1>
-                <small>Thông tin giỏ hàng</small>
+                <small>Thông tin đặt phòng</small>
             </div>
         </div>
         <!--CART-->
@@ -52,7 +52,7 @@ get_sidebar();
                                     <th class="col-md-2">Ngày trả phòng</th>
                                     <th class="col-md-1">Số người lớn</th>
                                     <th class="col-md-1">Số trẻ em</th>
-                                    <th class="col-md-1"></th>
+                                    <th class="col-md-1">Chỉnh sửa</th>
                                 </tr>
                             </thead>
                             <tbody>

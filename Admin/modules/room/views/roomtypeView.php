@@ -19,6 +19,7 @@ get_sidebar();
         <div class="row">
             <div class="col-sm-12">
                 <!-- Plugin content:powerpoint,txt,pdf,png,word,xl -->
+                <!-- Thêm phòng -->
                 <div class="btn-group">
                     <?php if (isset($_SESSION['role']) && $_SESSION['role'] == 1) {
                         ?>
@@ -28,18 +29,30 @@ get_sidebar();
                     <?php }
                     ?>
                 </div>
+
+                <!-- ƯU ĐÃI GIẢM GIÁ -->
+                <div class="btn-group">
+                    <?php if (isset($_SESSION['role']) && $_SESSION['role'] == 1) {
+                        ?>
+                        <div class="buttonexport" id="buttonlist"> 
+                            <button type="button" name="roomtype_discount" class="btn btn-add btn-sm m-b-10" data-toggle="modal" data-target="#customer4" room-id=""><i class="fa fa-money"></i> Ưu đãi giảm giá</button>
+                        </div>
+                    <?php }
+                    ?>
+                </div>
+
                 <!-- Plugin content:powerpoint,txt,pdf,png,word,xl -->
                 <div class="table-responsive">
                     <table id="dataTableExample1" class="table table-bordered table-striped table-hover text-center">
                         <thead>
                             <tr class="info">
-                                <th>STT</th>
-                                <th>Tên loại phòng</th>
-                                <th>Hình ảnh</th>
-                                <th>Giá(VND)</th>
+                                <th class="col-md-1">STT</th>
+                                <th class="col-md-4">Tên loại phòng</th>
+                                <th class="col-md-3">Hình ảnh</th>
+                                <th class="col-md-2">Giá(VND)</th>
                                 <?php if (isset($_SESSION['role']) && $_SESSION['role'] == 1) {
                                     ?>
-                                    <th></th>
+                                    <th class="col-md-2"></th>
                                 <?php }
                                 ?>
                             </tr>
@@ -79,6 +92,64 @@ get_sidebar();
                 </div>
             </div>
         </div>
+        <!-- ƯU ĐÃI GIẢM GIÁ -->
+        <div class="modal fade" id="customer4" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog w-dialog">
+                <div class="modal-content">
+                    <div class="modal-header modal-header-primary">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h3><i class="fa fa-home m-r-5"></i> Ưu đãi giảm giá</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <form class="form-horizontal" enctype="multipart/form-data" method="POST">
+                                    <fieldset>
+                                        <!-- giá giảm roomtype-->
+                                        <div class="col-md-4 form-group">
+                                            <label class="control-label" style="margin-bottom: 10px;">Giảm giá (%):</label>
+                                            <select class="custom-select form-control" id="inputGroupSelect01" name="roomtype_pricediscount">
+                                                <option value="0">0%</option>
+                                                <option value="5">5%</option>
+                                                <option value="10">10%</option>
+                                                <option value="15">15%</option>
+                                                <option value="20">20%</option>
+                                                <option value="25">25%</option>
+                                                <option value="30">30%</option>
+                                            </select>
+                                            <!-- <input type="number" name="roomtype_add_pricediscount" min="0" placeholder="" value="" class="form-control"> -->
+                                        </div>
+                                        <!--Ngày bắt đầu-->
+                                        <div class="col-md-4 form-group">
+                                            <label class="control-label" style="margin-bottom: 10px;">Ngày bắt đầu:</label>
+                                            <input type="datetime" id='received-date' name="roomtype_datestart"  class="form-control years" style="position: relative;" value="<?php echo date('Y-m-d');?>"/><i class="fa fa-calendar" style="position: absolute;top: 40px;right: 30px;"></i>
+                                        </div>
+                                        <!--Ngày kết thúc-->
+                                        <div class="col-md-4 form-group">
+                                            <label class="control-label" style="margin-bottom: 10px;">Ngày kết thúc:</label>
+                                            <input type="datetime" id='pay-date' name="roomtype_dateend" class="form-control years" style="position: relative;" value="<?php echo date('Y-m-d');?>"/><i class="fa fa-calendar" style="position: absolute;top: 40px;right: 30px;"></i>
+                                        </div>
+
+                                        <div class="col-md-12 form-group user-form-group">
+                                            <div class="pull-right">
+                                                <input type="submit" name="save-room-type-pricediscount" class="btn btn-add btn-sm" value="Save"/>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger pull-left" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- END ƯU ĐÃI GIẢM GIÁ -->
+
         <!-- add Room -->
         <div class="modal fade" id="customer3" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog w-dialog">
@@ -104,8 +175,17 @@ get_sidebar();
                                         </div>
                                         <!-- giá giảm roomtype-->
                                         <div class="col-md-4 form-group">
-                                            <label class="control-label" style="margin-bottom: 10px;">Giá giảm loại phòng:</label>
-                                            <input type="number" name="roomtype_add_pricediscount" min="0" placeholder="" value="" class="form-control">
+                                            <label class="control-label" style="margin-bottom: 10px;">Giảm giá(%):</label>
+                                            <select class="custom-select form-control" id="inputGroupSelect01" name="roomtype_add_pricediscount">
+                                                <option value="0">0%</option>
+                                                <option value="5">5%</option>
+                                                <option value="10">10%</option>
+                                                <option value="15">15%</option>
+                                                <option value="20">20%</option>
+                                                <option value="25">25%</option>
+                                                <option value="30">30%</option>
+                                            </select>
+                                            <!-- <input type="number" name="roomtype_add_pricediscount" min="0" placeholder="" value="" class="form-control"> -->
                                         </div>
                                         <!--Ngày bắt đầu-->
                                         <div class="col-md-4 form-group">
@@ -168,8 +248,17 @@ get_sidebar();
 
                                         <!-- giá giảm roomtype-->
                                         <div class="col-md-4 form-group">
-                                            <label class="control-label" style="margin-bottom: 10px;">Giá giảm loại phòng:</label>
-                                            <input type="number" name="roomtype_up_pricediscount" min="0" placeholder="" value="" class="form-control">
+                                            <label class="control-label" style="margin-bottom: 10px;">Giảm giá(%):</label>
+                                            <select class="custom-select form-control" id="inputGroupSelect01" name="roomtype_up_pricediscount">
+                                                <option value="0">0%</option>
+                                                <option value="5">5%</option>
+                                                <option value="10">10%</option>
+                                                <option value="15">15%</option>
+                                                <option value="20">20%</option>
+                                                <option value="25">25%</option>
+                                                <option value="30">30%</option>
+                                            </select>
+                                            <!-- <input type="number" name="roomtype_up_pricediscount" min="0" placeholder="" value="" class="form-control"> -->
                                         </div>
                                         <!--Ngày bắt đầu-->
                                         <div class="col-md-4 form-group">

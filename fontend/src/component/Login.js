@@ -59,7 +59,7 @@ function Login(props) {
                     history.push('/');
                     setEmail("");
                     setPassword("");
-                    alert("DAng nhap thanh cong");
+                    alert("Đăng nhập thành công");
                 }
             })
                 .catch(err => console.log(err));

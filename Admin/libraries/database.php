@@ -86,6 +86,23 @@ function db_update($table, $data, $where) {
     return mysqli_affected_rows($conn);
 }
 
+function db_update_all($table, $data) {
+    global $conn;
+    $sql = "";
+    foreach ($data as $field => $value) {
+        if ($value === NULL)
+            $sql .= "$field=NULL, ";
+        else
+            $sql .= "$field='" . escape_string($value) . "', ";
+    }
+    $sql = substr($sql, 0, -2);
+    db_query("
+            UPDATE $table
+            SET $sql
+   ");
+    return mysqli_affected_rows($conn);
+}
+
 function db_delete($table, $where) {
     global $conn;
     $query_string = "DELETE FROM " . $table . " WHERE $where";

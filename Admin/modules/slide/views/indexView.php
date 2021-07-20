@@ -37,7 +37,7 @@ get_sidebar();
                             <thead>
                                 <tr class="info">
                                     <th class="col-md-1">STT</th>
-                                    <th class="col-md-3">Hình ảnh</th>
+                                    <th class="col-md-5">Hình ảnh</th>
                                     <th class="col-md-2">Ngày bắt đầu</th>
                                     <th class="col-md-2">Ngày kết thúc</th>
                                     <th class="col-md-2"></th>
@@ -53,7 +53,7 @@ get_sidebar();
                                         ?>
                                         <tr>
                                             <td><?php echo $t; ?></td>
-                                            <td><img src="public/images/slide/<?php echo $slide['image']; ?>" class="img-rounded thumb" alt="User Image" width="" height="200"></td>
+                                            <td><img src="public/images/slide/<?php echo $slide['image']; ?>" class="img-rounded thumb" alt="User Image" width="" height="100"></td>
                                             <td><?php echo $slide['date_start']; ?></td>
                                             <td><?php echo $slide['date_end']; ?></td>
                                             <td>

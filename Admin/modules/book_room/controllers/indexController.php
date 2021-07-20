@@ -24,11 +24,10 @@ function indexAction() {
     if (isset($_POST['btn-search-roomtype'])) {
         $check_in_date = check_date_now($_POST['checkin_BookRoom']);
         $check_out_date = check_date_now($_POST['checkout_BookRoom']);
-//        show_array($check_in_date);
-//        show_array($check_out_date);
+        //show_array($check_in_date);
+        //show_array($check_out_date);
         $n = count($check_out_date);
         $m = count($check_out_date[0]);
-//        echo $m;
         $number_room_empty = array();
         for ($i = 0; $i < $n; $i++) {
             for ($j = 0; $j < $m; $j++) {
@@ -49,6 +48,33 @@ function indexAction() {
     //============================================
     //Kiểm tra sự tồn tại nút thêm vào giỏ hàng
     if (isset($_POST['btn-add-roomtype-cart'])) {
+        //Kiểm tra ngày đặt phòng có bao nhiu phòng trống
+        $check_in_date1 = check_date_now($_POST['checkin_BookRoom']);
+        $check_out_date1 = check_date_now($_POST['checkout_BookRoom']);
+        //show_array($check_in_date);
+        //show_array($check_out_date);
+        $n = count($check_out_date1);
+        $m = count($check_out_date1[0]);
+        $number_room_empty = array();
+        for ($i = 0; $i < $n; $i++) {
+            for ($j = 0; $j < $m; $j++) {
+                if ($check_in_date1[$i]['number'] < $check_out_date1[$i]['number']) {
+                    $number_room_empty[$i]['number'] = $check_in_date1[$i]['number'];
+                } else {
+                    $number_room_empty[$i]['number'] = $check_out_date1[$i]['number'];
+                }
+                $number_room_empty[$i]['id'] = $check_in_date1[$i]['id'];
+                $number_room_empty[$i]['name'] = $check_in_date1[$i]['name'];
+            }
+        }
+        // Tạo biến cờ kiểm tra số phòng KH đặt có lớn hơn số phòng còn lại của loại phòng đó không
+        $flg_room=0;
+        foreach($number_room_empty as $number_room){
+            if($_POST['count_room']>$number_room['number']&&$number_room['id']==$_POST['roomType']){
+                $flg_room=1;
+            }
+        }
+
         $check_in_date = $_POST['checkin_BookRoom'];
         $check_out_date = $_POST['checkout_BookRoom'];
         $data['check_in_date']=$check_in_date;
@@ -67,19 +93,29 @@ function indexAction() {
             //Kiểm tra loại phòng đó đã đặt chưa,nếu rồi alert
             if (check_num_room_type($_POST['roomType'])) {
                 echo "<script type='text/javascript'>";
-                echo "alert('Loại phòng này đã được đặt, vui lòng vô giỏ hàng để cập nhật')";
+                echo "alert('Loại phòng này đã được đặt, vui lòng vô thông tin đặt phòng để cập nhật')";
                 echo "</script>";
             } else {
-                $data_add_cart = array(
-                    'id_roomtype' => $_POST['roomType'],
-                    'number_room' => $_POST['count_room'],
-                    'check_in' => $_POST['checkin_BookRoom'],
-                    'check_out' => $_POST['checkout_BookRoom'],
-                    'number_adults' => $_POST['adults_BookRoom'],
-                    'number_childrens' => $_POST['childrens_BookRoom']
-                );
-                add_cart($data_add_cart);
-                redirect('?mod=book_room');
+                // Kiểm tra số phòng đặt có lớn hơn số phòng còn lại không
+
+                if($flg_room==1){
+                    echo "<script type='text/javascript'>";
+                    echo "alert('Không đủ số lượng phòng để đặt, vui lòng đặt lại!')";
+                    echo "</script>";
+                }
+                else{
+                    $data_add_cart = array(
+                        'id_roomtype' => $_POST['roomType'],
+                        'number_room' => $_POST['count_room'],
+                        'check_in' => $_POST['checkin_BookRoom'],
+                        'check_out' => $_POST['checkout_BookRoom'],
+                        'number_adults' => $_POST['adults_BookRoom'],
+                        'number_childrens' => $_POST['childrens_BookRoom']
+                    );
+                    add_cart($data_add_cart);
+                    redirect('?mod=book_room');
+                }
+                
             }
         }
     }
