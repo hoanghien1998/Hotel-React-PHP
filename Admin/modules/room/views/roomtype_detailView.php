@@ -44,7 +44,7 @@ get_sidebar();
                                 </div>
                                 <div class="col-md-4 form-group">
                                     <label class="control-label">Giường:</label>
-                                    <input type="number" min="1" name="roomtypedetailBed" placeholder="" value="<?php if (isset($roomtypedetail)) echo $roomtypedetail['giuong'] ?>" class="form-control">
+                                    <input type="text" min="1" name="roomtypedetailBed" placeholder="" value="<?php if (isset($roomtypedetail)) echo $roomtypedetail['giuong'] ?>" class="form-control">
                                 </div>
                                 <div class="col-md-12 form-group">
                                     <label class="control-label">Hình ảnh:</label>
