@@ -153,7 +153,7 @@ get_sidebar();
                                             showInLegend: "true",
                                             legendText: "{name}",
                                             indexLabelFontSize: 16,
-                                            indexLabel: "{name} - #percent%",
+                                            indexLabel: "{name} (#percent%)",
                                             yValueFormatString: "SOPHONG:#,##0",
                                             dataPoints: <?php echo json_encode($dataPoints1, JSON_NUMERIC_CHECK); ?>
                                         }]

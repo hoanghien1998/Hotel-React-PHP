@@ -51,11 +51,11 @@ get_sidebar();
                                     ?>
                                     <tr>
                                         <td><?php echo $t; ?></td>
-                                        <td><?php echo $customers['name']; ?></td>
+                                        <td style="text-align:left"><?php echo $customers['name']; ?></td>
                                         <td><?php echo $customers['phone']; ?></td>
-                                        <td><?php echo $customers['address']; ?></td>
+                                        <td style="text-align:left"><?php echo $customers['address']; ?></td>
                                         <td><?php echo $customers['cmnd']; ?></td>
-                                        <td><?php echo $customers['email']; ?></td>
+                                        <td style="text-align:left"><?php echo $customers['email']; ?></td>
                                         <td><span class="<?php echo color_state_Customer($customers['state']); ?>"><?php echo state_Customer($customers['state']); ?></span></td>
                                         <td>
                                             <button type="button" name="customerUpdate" class="btn btn-add btn-sm" data-toggle="modal" data-target="#customer1" update-customer-id="<?php echo $customers['cus_code']; ?>"><i class="fa fa-pencil"></i></button>

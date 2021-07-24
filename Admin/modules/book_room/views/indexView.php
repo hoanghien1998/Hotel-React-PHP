@@ -91,7 +91,7 @@ get_sidebar();
                                 <div class="field-wl">
                                     <label class="lbl-book">Số người lớn</label>
                                     <div class=" input-group date form_date">
-                                        <input type="number"name="adults_BookRoom"  class="form-control" />
+                                        <input type="number"name="adults_BookRoom" min="1" value="1" class="form-control" />
                                     </div>
                                 </div>
                             </div>
@@ -100,12 +100,12 @@ get_sidebar();
                                 <div class="field-wr">
                                     <label class="lbl-book">Số trẻ em</label>
                                     <div class=" input-group date form_date">
-                                        <input type="number" name="childrens_BookRoom" class="form-control"/>
+                                        <input type="number" name="childrens_BookRoom" min="0" value="0" class="form-control"/>
                                     </div>
                                 </div>
                             </div>
                             <div class="form-group text-center">
-                                <input type="submit" name="btn-add-roomtype-cart" class="btn btn-add" value="Thêm vào giỏ hàng"/>
+                                <input type="submit" name="btn-add-roomtype-cart" class="btn btn-add" value="Thêm vào đặt phòng"/>
                             </div>
                         </form>
                     </div>

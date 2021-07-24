@@ -23,6 +23,16 @@ function get_room_type_id($id){
     return $result;
 }
 
+// lấy ưu đãi
+function get_room_type_dis(){
+    $result= db_fetch_row("SELECT * FROM `roomtype` LIMIT 1, 1");
+    return $result;
+}
+// update thông tin ưu đãi
+function update_info_room_type_pricedisount($data){
+    db_update_all('roomtype', $data,"");
+}
+
 function update_info_room_type_id($data,$id){
     db_update('roomtype', $data,"`id`={$id}");
 }

@@ -3,7 +3,7 @@
 function get_info_cart() {
     //Lấy 1 mảng trong database
     $result = db_fetch_array("
-    SELECT `id_roomtype`,roomtype.name,`number_room`,(DATEDIFF(check_out, check_in)+1)AS number_day , roomtype.price,((roomtype.price*`number_room`)*(DATEDIFF(check_out, check_in)+1)) as total_sum,check_out, check_in,number_adults,number_childrens, roomtype.date_start,roomtype.date_end, roomtype.price_discount
+    SELECT `id_roomtype`,roomtype.name,`number_room`,(DATEDIFF(check_out, check_in)+1)AS number_day , roomtype.price,((roomtype.price*`number_room`)*(DATEDIFF(check_out, check_in)+1)) as total_sum,check_out, check_in,number_adults,number_childrens, roomtype.price_discount
     FROM `cart`, `roomtype`
     WHERE cart.id_roomtype=roomtype.id");
     return $result;
@@ -11,6 +11,15 @@ function get_info_cart() {
     // FROM `cart`, `roomtype`
     // WHERE cart.id_roomtype=roomtype.id
 }
+
+// lấy thông tin ưu đãi
+function get_info_pricediscount() {
+    //Lấy 1 dòng trong database
+    $result= db_fetch_row("SELECT * FROM `roomtype` LIMIT 1, 1");
+    return $result;
+}
+
+// Lấy tổng số ng
 
 // danh sách số ngày giảm Giá
 function get_list_date_discount_money($id){
@@ -72,8 +81,8 @@ function detete_all_cart($table) {
 function get_list_room_detail_book($check_in,$check_out, $id_roomtype){
     $result= db_fetch_array("SELECT detailbook_room.room_id
 	FROM `detailbook_room`,`detailbook`
-	WHERE detailbook_room.detail_book_id=detailbook.id AND detailbook.room_type_id={$id_roomtype} AND ((detailbook.check_in<='{$check_in}') AND ('{$check_in}' <= detailbook.check_out))
-        OR ((detailbook.check_in<='{$check_out}') AND ('{$check_out}' <= detailbook.check_out))");
+	WHERE detailbook_room.detail_book_id=detailbook.id AND detailbook.room_type_id={$id_roomtype} AND (((detailbook.check_in<='{$check_in}') AND ('{$check_in}' <= detailbook.check_out))
+        OR ((detailbook.check_in<='{$check_out}') AND ('{$check_out}' <= detailbook.check_out)))");
     return $result;
 }
 

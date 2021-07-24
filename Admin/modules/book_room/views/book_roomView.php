@@ -89,11 +89,11 @@ get_sidebar();
                                                 <td><span><?php echo $total_money; ?></span></td>
                                             </tr>
                                             <tr>
-                                                <td><span></span></td>
+                                                <td><span>Số tiền được giảm:</span></td>
                                                 <td><span><?php echo $total_money_be_discount; ?></span></td>
                                             </tr>
                                             <tr>
-                                                <td><span></span></td>
+                                                <td><span>Số tiền thanh toán:</span></td>
                                                 <td><span><?php echo $total_money_late_discount; ?></span></td>
                                             </tr>
                                         </tfoot>

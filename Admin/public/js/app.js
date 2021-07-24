@@ -83,9 +83,39 @@ $(document).ready(function () {
                 $("input[name='roomtypeId']").val(data.id);
                 $("input[name='roomtypeName']").val(data.name);
                 $("input[name='roomtypePrice']").val(data.price);
-                $("input[name='roomtype_up_pricediscount']").val(data.price_discount);
+                $("select[name='roomtype_up_pricediscount']").val(data.price_discount);
                 $("input[name='roomtype_up_datestart']").val(data.date_start);
                 $("input[name='roomtype_up_dateend']").val(data.date_end);
+//                //CKEDITOR.instances['room_type_Description'].setData(data.description);
+                console.log(data.price);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert(xhr.status);
+                alert(thrownError);
+            }
+        });
+    });
+});
+//===============================================================================
+
+
+//ajax giảm giá loại phòng
+$(document).ready(function () {
+    $("button[name='roomtype_discount']").click(function () {
+        var id = 1;
+        var data = {id: id};
+        console.log(id);
+        $.ajax({
+            url: '?mod=room&controller=roomtype&action=add_price_discount', //Trang xử lý, mặc định trang hiện tại xử lý ngầm lên server
+            method: 'POST', //POST OR GET, mặc định GET
+            data: data, //Dữ liệu truyền lên server, biến được khai báo bên trên
+//            dataType: 'text', //html,text, script
+            dataType: 'json', //dataType kiểu json
+            success: function (data) {
+                //Xử lý dữ liệu trả về
+                $("select[name='roomtype_pricediscount']").val(data.price_discount);
+                $("input[name='roomtype_datestart']").val(data.date_start);
+                $("input[name='roomtype_dateend']").val(data.date_end);
 //                //CKEDITOR.instances['room_type_Description'].setData(data.description);
                 console.log(data.price);
             },
