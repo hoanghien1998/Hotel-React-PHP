@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-pascal-case */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container } from "react-bootstrap";
 import { BrowserRouter } from "react-router-dom";
 import Menu1 from "./component/Menu1";
@@ -13,6 +13,7 @@ import Login from "./component/Login";
 import Register from "./component/Register";
 import Detail_Book from "./component/Detail_book";
 import Account from './component/Account';
+import Axios from "axios";
 
 function Trangchu(props) {
     const [token, setToken] = useState(
@@ -25,7 +26,8 @@ function Trangchu(props) {
     const [rooms, setRooms] = useState(
         localStorage.getItem("room") ? JSON.parse(localStorage.getItem("room")) : []
     );
-
+    const [histories, setHistories] = useState([]);
+    // const [user, getUser] = useState(JSON.parse(localStorage.getItem("user")));
     // Xử lý lấy cái token
     const handleGetToken = (e) => {
         setToken(e);
@@ -35,6 +37,22 @@ function Trangchu(props) {
     const handleGetUser = (e) => {
         setUser(e);
     };
+
+    const handleSendUser = () => {
+        var frm = new FormData();
+        var userId = user.cus_code;
+        frm.append("userId", JSON.stringify(userId));
+        var url = "/hotel/backend/lichSuDatPhong.php";
+        Axios.post(url, frm).then(res => {
+            if (res.data.success === 1) {
+                setHistories(res.data.historys);
+            }
+        }).catch(err => alert(err));
+    }
+
+    useEffect(() => {
+        handleSendUser()
+    }, [])
 
     // Lưu cái thông tin khi đặt phòng xuống localStorage.
     // Neu tim thay x ID = data.choseID thi cu push x vao listRoom
@@ -98,11 +116,15 @@ function Trangchu(props) {
                 <Switch>
                     {/* <Route exact path="/" component={Home} /> */}
                     <Route exact path="/">
-                        <Home token={token} handleAddToCart={(e) => handleAddToCart(e)} rooms={rooms} />
+                        <Home token={token} handleAddToCart={(e) => handleAddToCart(e)}
+                            rooms={rooms}
+                            histories={histories} />
                     </Route>
                     <Route exact path="/rooms" component={Room} />
+
                     {/* <Route exact path="/rooms">
-                        <Room  />
+                        {props => <Room {...props} 
+                           history={history} />}
                     </Route> */}
                     <Route exact path="/about" component={About} />
                     <Route exact path="/contact" component={Contact} />
@@ -121,8 +143,12 @@ function Trangchu(props) {
                         />
                     </Route>
                     <Route exact path="/acount">
-                        <Account token={token}
-                            user={user} />
+                        {/* <Account token={token}
+                            user={user}  
+                            handleGetData={handleGetData}/> */}
+                        {props => <Account {...props} token={token}
+                            user={user}
+                            histories={histories} />}
 
                     </Route>
                 </Switch>
